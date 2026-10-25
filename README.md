@@ -9,6 +9,6 @@ To preview locally, run `python3 -m http.server 8000` from this directory and op
 http://localhost:8000.
 
 Pushes to `main` deploy the homepage to GitHub Pages through
-`.github/workflows/deploy.yml`. The workflow publishes only `index.html`, `img/`,
-`CNAME`, and `.nojekyll`. GitHub Pages must use GitHub Actions as its source, with
+`.github/workflows/deploy.yml`. The workflow publishes only `index.html`,
+`privacy.html`, `img/`, `CNAME`, and `.nojekyll`. GitHub Pages must use GitHub Actions as its source, with
 `luxio.lighting` configured as its custom domain and DNS pointing to GitHub Pages.

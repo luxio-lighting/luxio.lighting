@@ -3,9 +3,51 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Luxio Privacy</title>
+  <title>Privacy — Luxio</title>
+  <link rel="icon" href="./img/favicon.ico" />
+  <style>
+    :root { color-scheme: dark; font-family: system-ui, sans-serif; background: #111114; color: #f4f4f5; }
+    body { max-width: 720px; margin: auto; padding: 48px 24px 72px; line-height: 1.65; }
+    a { color: #2eecb6; text-underline-offset: 3px; }
+    .brand { font-size: 24px; font-weight: 800; text-decoration: none; }
+    h1 { margin: 32px 0 0; font-size: clamp(36px, 8vw, 52px); line-height: 1.15; background: linear-gradient(45deg, #00d2ff, #4fff7f); background-clip: text; color: transparent; }
+    h2 { margin-top: 32px; font-size: 21px; line-height: 1.3; }
+    p, li { color: #d4d4d8; }
+    .updated { color: #a1a1aa; font-size: 14px; }
+    li + li { margin-top: 6px; }
+    :focus-visible { outline: 2px solid #00d2ff; outline-offset: 4px; }
+  </style>
 </head>
 <body>
-  <p>Luxio does not collect any personal data except for your WAN IP to aid in device discovery. That's it.</p>
+  <header><a class="brand" href="/">Luxio</a><h1>Privacy</h1><p class="updated">Updated 28 October 2026</p></header>
+  <main>
+    <p>This policy covers the Luxio mobile apps, controller firmware and discovery service operated by Emile B.V. Luxio does not require an account and has no advertising or analytics SDKs in its mobile apps. We do not use discovery data for advertising, profiling or tracking across other companies’ apps and websites.</p>
+
+    <h2>Finding your controllers</h2>
+    <p>The apps first look for controllers on your local network. They can also contact <strong>api.luxio.lighting</strong> to find controllers using the same public internet connection. The service uses the request’s public IP address to match recent controller announcements. The production API and reverse proxy do not retain request logs.</p>
+    <p>Controllers announce the following information to the discovery service, which stores the latest record for each controller:</p>
+    <ul>
+      <li>Public internet (WAN) IP address and local network (LAN) IP address.</li>
+      <li>Controller name, which you can choose.</li>
+      <li>Device identifier and public key, used to verify controller announcements. The private key stays on the controller.</li>
+      <li>Firmware build, update channel, and creation and last-announcement timestamps.</li>
+    </ul>
+    <p>We use this information to discover controllers and identify their firmware. A controller name may contain personal information if you put it there. Discovery results disclose the controller’s name, identifier, local IP address, firmware details and last-announcement time to clients connecting from the same public IP address.</p>
+
+    <h2>Local control and settings</h2>
+    <p>Colors, gradients, animations and device settings are sent directly to the selected controller over your local network or Bluetooth. App preferences and Simulator data are stored locally. Saved controller presets are stored on that controller; they are not uploaded to the discovery service.</p>
+    <p>Wi-Fi credentials used during setup are sent to the selected controller, not to the discovery API. Local-network and Bluetooth permissions enable device discovery and control. On Android 11 and earlier, Bluetooth discovery may require the system’s location permission; Luxio does not use it to obtain your geographic location.</p>
+    <p>The public discovery and firmware services use HTTPS. Local HTTP communication with controllers is not encrypted. Matter integrations are optional and are subject to the privacy practices of the platform you connect.</p>
+
+    <h2>Retention and deletion</h2>
+    <p>Controllers that have not announced for one hour are excluded from discovery results. This does not delete their stored record: controller records currently have no automatic expiry and remain until removed. Temporary verification challenges expire after two minutes and are removed automatically.</p>
+    <p>For questions or a request to delete stored discovery information, contact <a href="mailto:info@luxio.lighting">info@luxio.lighting</a>. Include your controller’s device identifier if available; do not send passwords or private keys. A controller that continues announcing can recreate its record after deletion.</p>
+    <p>Removing the app deletes its local app data, subject to your operating system’s backup and restore settings. It does not erase presets on your controller or its discovery record.</p>
+
+    <h2>Service providers and contact</h2>
+    <p>Hosting and network providers process information needed to deliver the service. We do not sell discovery data or share it with advertising networks. If you contact us, we use the information you provide to respond and handle your request.</p>
+    <p>The Luxio website is hosted on GitHub Pages. GitHub processes website requests under its <a href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement">privacy statement</a>. Links to other services open under those services’ own privacy policies.</p>
+    <p>Emile B.V. · <a href="mailto:info@luxio.lighting">info@luxio.lighting</a></p>
+  </main>
 </body>
 </html>

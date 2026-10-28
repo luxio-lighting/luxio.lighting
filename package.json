@@ -1,0 +1,12 @@
+{
+  "name": "luxio-marketing",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build:preview": "node tools/build-preview.mjs"
+  },
+  "devDependencies": {
+    "esbuild": "0.28.2",
+    "fengari": "0.1.5"
+  }
+}

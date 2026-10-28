@@ -1,589 +1,280 @@
 <!doctype html>
 <html lang="en">
-
 <head>
   <meta charset="utf-8" />
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1"
-  />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Open source LED lighting. Beautiful gradients, Lua animations and Matter support. Control Luxio over Wi-Fi, Bluetooth or USB." />
   <title>Luxio — Open Source Wi-Fi Gradient LED Strips</title>
   <link rel="icon" href="./img/favicon.ico" sizes="16x16 32x32 48x48" />
   <link rel="icon" type="image/png" sizes="32x32" href="./img/favicon-32x32.png" />
-  <link rel="icon" type="image/png" sizes="16x16" href="./img/favicon-16x16.png" />
-  <link rel="apple-touch-icon" sizes="180x180" href="./img/apple-touch-icon.png" />
+  <link rel="apple-touch-icon" href="./img/apple-touch-icon.png" />
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@200;300;400;500;600;700;800&display=swap');
-
-    :root {
-      --black: #000;
-      --white: #fff;
-      --luxio-blue: #00D2FF;
-      --luxio-green: #4FFF7F;
-      --luxio-mint: #2EECB6;
-      --luxio-gradient: linear-gradient(45deg, var(--luxio-blue), var(--luxio-green));
-      --width: 100%;
-    }
-
+    @import url('https://fonts.googleapis.com/css2?family=Caveat:wght@500&family=Nunito:wght@400;500;600;700;800&display=swap');
+    :root { color-scheme: dark; --luxio-blue: #00d2ff; --luxio-green: #4fff7f; --luxio-mint: #2eecb6; --luxio-gradient: linear-gradient(45deg, var(--luxio-blue), var(--luxio-green)); }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    [hidden] { display: none !important; }
+    ::selection { background: var(--luxio-green); color: #000; }
+    body { background: #000; color: #fff; font-family: Nunito, sans-serif; }
+    a { color: var(--luxio-mint); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    #homey { position: relative; }
+    #works-with .connections { padding-bottom: 100px; }
+    #homey .founder-note { position: absolute; top: calc(100% + 30px); left: 40%; width: 210px; color: #999; font-family: Caveat, cursive; font-size: 25px; line-height: 1.15; transform: rotate(-4deg); }
+    #homey .founder-note svg { position: absolute; width: 52px; height: 48px; top: -35px; left: -12px; stroke: #999; stroke-width: 1.5; }
+    button, select { font: inherit; }
+    button { cursor: pointer; }
+    button:focus-visible, a:focus-visible { outline: 2px solid var(--luxio-mint); outline-offset: 5px; }
+    #wrap { position: relative; width: min(100%, 960px); padding: 0 40px; margin: auto; }
+    #logo { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 16px; margin: 56px 0 0; }
+    #logo img { width: 144px; height: 144px; padding: 0; background: #000; border-radius: 25px; }
+    #logo-text { font-size: 80px; line-height: 1; letter-spacing: -3px; font-weight: 800; }
+    .gradient-text { background: var(--luxio-gradient); background-clip: text; -webkit-background-clip: text; color: transparent; }
+    #hero { margin: 8px 0 48px; text-align: center; }
+    #hero-title { font-size: 32px; line-height: 1.45; font-weight: 600; color: #aaa; letter-spacing: -.5px; }
+    #hero-title .gradient-text { background-image: linear-gradient(90deg, var(--luxio-blue), var(--luxio-green), var(--luxio-blue)); background-size: 200% 100%; animation: hero-gradient 6s linear infinite; }
+    @keyframes hero-gradient { from { background-position: 0% 50%; } to { background-position: 200% 50%; } }
+    @media (prefers-reduced-motion: reduce) { #hero-title .gradient-text { animation: none; } }
+    .app-links { display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: 12px; margin-top: 28px; }
+    .app-links > a { display: inline-flex; align-items: center; justify-content: center; height: 40px; border: 1px solid #a6a6a6; border-radius: 5px; background: #000; overflow: hidden; }
+    .app-links img { display: block; height: 38px; max-width: 100%; }
+    .web-link { display: inline-flex; align-items: center; justify-content: center; gap: 9px; padding: 0 8px; color: #fff; font-weight: 700; }
+    .web-link img { width: 22px; height: 22px; }
+    .app-links > a:hover, .app-links > a:focus-visible { border-color: transparent; background: linear-gradient(#000, #000) padding-box, var(--luxio-gradient) border-box; text-decoration: none; }
+    .chapter { margin-bottom: 128px; text-align: center; }
+    .chapter-title { display: flex; flex-direction: column; align-items: center; gap: 14px; font-size: 44px; line-height: 1.25; font-weight: 700; margin-bottom: 4px; }
+    .connections .matter-icon { fill: #fff; stroke: none; }
+    .chapter-text { font-size: 20px; font-weight: 500; line-height: 1.65; color: #aaa; max-width: 760px; margin-inline: auto; }
+    .chapter-text + .chapter-text { margin-top: 12px; }
+    .chapter-text a { font-weight: 600; }
+    .gallery { min-width: 0; }
+    .screenshot-stage { position: relative; isolation: isolate; padding: 0 70px 68px 0; }
+    .screenshot-stage::before { content: ""; position: absolute; z-index: -1; pointer-events: none; width: min(1100px, 100vw); aspect-ratio: 1; left: 50%; top: 50%; transform: translate(-50%, -50%); background: radial-gradient(circle at 40% 45%, #00d2ff18, transparent 60%), radial-gradient(circle at 60% 55%, #4fff7f18, transparent 60%); }
+    .screenshot-stage .phone-frame { position: absolute; bottom: 0; right: 0; width: 25%; z-index: 1; }
     @media (min-width: 1000px) {
-      :root {
-        --width: 960px;
-      }
+      .screenshot-stage { width: min(1040px, calc(100vw - 80px)); left: 50%; transform: translateX(-50%); }
+      .screenshot-stage .phone-frame { width: 220px; }
     }
-
-    ::-webkit-scrollbar {
-      width: 8px;
-      height: 8px;
-    }
-
-    ::-webkit-scrollbar-track {
-      background: transparent;
-    }
-
-    ::-webkit-scrollbar-thumb {
-      border-radius: 10px;
-    }
-
-    ::-webkit-scrollbar-thumb:hover {
-      background: rgba(255, 255, 255, 0.35);
-    }
-
-
-    ::-webkit-scrollbar-thumb,
-    ::-webkit-scrollbar-thumb:active {
-      background: rgba(255, 255, 255, 0.3);
-    }
-
-    * {
-      margin: 0;
-      padding: 0;
-    }
-
-    ::selection {
-      background-color: var(--luxio-green);
-    }
-
-    body {
-      background-color: var(--black);
-      color: var(--white);
-      font-family: Nunito, sans-serif;
-    }
-
-    body:before {
-      position: absolute;
-      left: 0;
-      right: 0;
-      top: -400px;
-      height: 800px;
-
-      display: block;
-      content: "";
-      background:
-        /* linear-gradient(to bottom, rgba(0, 0, 0, 0.5) 0%, rgba(0, 0, 0, 1) 100%),
-        linear-gradient(to left, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0) 25%, rgba(0, 0, 0, 0) 75%, rgba(0, 0, 0, 1) 100%), */
-        radial-gradient(rgba(0, 0, 0, 0.6) 0%, rgba(0, 0, 0, 1) 70%),
-        linear-gradient(to right, var(--luxio-green) 0%, var(--luxio-blue) 100%);
-      background-size: 100% 100%;
-    }
-
-    #wrap {
-      box-sizing: border-box;
-      position: relative;
-      width: var(--width);
-      margin: auto;
-      padding: 0 40px;
-    }
-
-    #logo {
-      margin: 30px 0;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-    }
-
-    #logo-icon {
-      display: block;
-      width: 77px;
-      height: 77px;
-      margin-bottom: 10px;
-      background: url(./img/luxio-jellyfish.png) no-repeat;
-      background-size: contain;
-    }
-
-    #logo-text {
-      font-size: 42px;
-      font-weight: 600;
-      background: var(--luxio-gradient);
-      /* text-shadow: 0 10px 40px rgba(0, 0, 0, 0.75); */
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-
-    #hero {
-      position: relative;
-      display: flex;
-      flex-direction: column;
-      margin-top: 50px;
-      margin-bottom: 50px;
-    }
-
-    @media (min-width: 1000px) {
-      #hero {
-        margin-top: 100px;
-        flex-direction: row;
-      }
-    }
-
-    #hero-screenshot {
-      width: 100%;
-      max-width: 500px;
-      aspect-ratio: 0.75;
-      background: url(./img/screenshot.png) no-repeat;
-      background-size: 100% auto;
-
-      display: flex;
-      justify-content: center;
-      align-items: flex-end;
-    }
-
-    @media (min-width: 1000px) {
-      #hero-screenshot {
-        width: 400px;
-        height: 600px;
-        background-size: 400px auto;
-        margin-top: -40px;
-        margin-right: -20px;
-        margin-bottom: 0;
-      }
-    }
-
-    #hero-screenshot-ios,
-    #hero-screenshot-android {
-      font-size: 0;
-      margin: 0 10px;
-    }
-
-    #hero-screenshot-ios>img,
-    #hero-screenshot-android>img {
-      height: 40px;
-    }
-
-    @media (min-width: 1000px) {
-
-      #hero-screenshot-ios>img,
-      #hero-screenshot-android>img {
-        height: 50px;
-      }
-    }
-
-    #hero-text {}
-
-    #hero-title {
-      font-size: 40px;
-      line-height: 66px;
-      font-weight: 800;
-      margin-bottom: 50px;
-    }
-
-    @media (min-width: 1000px) {
-      #hero-title {
-        text-align: left;
-        font-size: 66px;
-        line-height: 98px;
-        font-weight: 800;
-      }
-    }
-
-    #hero-title-gradient {
-      background: var(--luxio-gradient);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-
-    #hero-intro {
-      max-width: 600px;
-    }
-
-    #hero-intro p {
-      font-size: 24px;
-      font-weight: 600;
-      line-height: 40px;
-      color: #aaa;
-      margin-bottom: 1em;
-    }
-
-    .chapter {
-      margin-bottom: 100px;
-    }
-
-    .chapter-title {
-      display: inline-block;
-      font-size: 40px;
-      font-weight: 700;
-      background: var(--luxio-gradient);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-
-    @media (min-width: 1000px) {
-      .chapter-title {
-        font-size: 48px;
-      }
-    }
-
-    .chapter-subtitle {
-      font-size: 24px;
-      color: #666;
-      margin-bottom: 1em;
-    }
-
-    .chapter-text {
-      font-size: 20px;
-      font-weight: 500;
-      line-height: 30px;
-      color: #aaa;
-      margin-bottom: 1em;
-    }
-
-    .chapter-text a {
-      font-weight: 600;
-      color: var(--luxio-mint);
-      text-decoration: none;
-    }
-
-    .chapter-text a:hover {
-      text-decoration: underline;
-    }
-
-    .steps {
-      margin-top: 50px;
-    }
-
-    .step {
-      position: relative;
-    }
-
-    .step:not(:last-child):after {
-      content: "";
-      display: block;
-      margin: 23px;
-      height: 100px;
-      width: 1px;
-      background: var(--white);
-      opacity: 0.25;
-    }
-
-    .step-icon {
-      display: block;
-      height: 46px;
-      margin-bottom: 10px;
-    }
-
-    .step-title {
-      font-size: 28px;
-      font-weight: 700;
-      line-height: 40px;
-    }
-
-    .step-instruction {
-      font-size: 20px;
-      font-weight: 500;
-      line-height: 40px;
-      color: #aaa;
-      opacity: 1;
-      max-width: 500px;
-      margin-bottom: 1em;
-    }
-
-    .step-instruction a {
-      font-weight: 600;
-      color: var(--luxio-mint);
-      text-decoration: none;
-    }
-
-    .step-instruction a:hover {
-      text-decoration: underline;
-    }
-
-    .shopping-list {
-      max-width: 350px;
-      background: #191919;
-      border-radius: 20px;
-      padding: 20px;
-      margin-bottom: 50px;
-    }
-
-    @media (min-width: 1000px) {
-      .shopping-list {
-        width: 350px;
-        float: right;
-      }
-    }
-
-    .shopping-list-title {
-      font-size: 24px;
-      font-weight: 700;
-      color: var(--white);
-      margin-bottom: 10px;
-    }
-
-    .shopping-list-item {
-      display: flex;
-      margin-bottom: 10px;
-    }
-
-    .shopping-list-item-title {
-      flex-grow: 1;
-      font-size: 17px;
-      font-weight: 600;
-      color: var(--luxio-mint);
-      text-decoration: none;
-    }
-
-    .shopping-list-item-title:hover {
-      text-decoration: underline;
-    }
-
-    .shopping-list-item-price {
-      flex-shrink: 0;
-      font-size: 17px;
-      font-weight: 600;
-      color: #777777;
-    }
-
-    .shopping-list-total {
-      border-top: 1px solid #777777;
-      margin-top: 20px;
-      padding-top: 20px;
-    }
-
-    .shopping-list-total-title {
-      color: #AEAEAE;
-    }
-
-    .shopping-list-total-title:hover {
-      text-decoration: none;
-    }
-
-    .cli-example {
-      display: inline-block;
-      white-space: nowrap;
-      padding: 1px;
-      border-radius: 20px;
-      background: var(--luxio-gradient);
-    }
-
-    .cli-example>pre {
-      font-size: 16px;
-      font-family: 'Roboto Mono', monospace;
-      line-height: 30px;
-      color: white;
-      border-radius: 20px;
-      padding: 20px;
-      background: rgba(0, 0, 0, 0.9);
-      overflow-x: auto;
-    }
-
-    .cli-example-inner {
-      max-width: calc(100vw - 120px);
-      overflow-x: auto;
-    }
-
-    #footer {
-      padding: 50px 0;
-      background: linear-gradient(to bottom, #000000, #222222);
-      text-align: center;
-    }
-
-    #footer-text {
-      width: var(--width);
-      margin: auto;
-      font-weight: 500;
-      color: #666;
-    }
-
-    #footer-text:before {
-      content: "";
-      display: block;
-      width: 100%;
-      height: 1px;
-      background: linear-gradient(to right, rgba(0, 0, 0, 0), #333, rgba(0, 0, 0, 0.0));
-      margin-bottom: 50px;
-    }
-
-    #footer-text a {
-      color: var(--luxio-mint);
-      text-decoration: none;
-    }
-
-    #footer-text a:hover {
-      text-decoration: underline;
+    .phone-frame { position: relative; padding: 6px; border: 1px solid #5b5b5b; background: #171717; border-radius: 35px; box-shadow: 0 20px 65px #0008; }
+    .phone-screen { position: relative; aspect-ratio: 1320 / 2868; overflow: hidden; border-radius: 29px; background: #19171b; }
+    .phone-screen::after { content: ""; position: absolute; bottom: 7px; left: 35%; width: 30%; height: 3px; border-radius: 3px; background: #fffa; pointer-events: none; }
+    .browser-frame { overflow: hidden; border: 1px solid #414141; border-radius: 12px; background: #171717; }
+    .browser-bar { height: 36px; display: flex; align-items: center; gap: 6px; padding: 0 13px; border-bottom: 1px solid #333; }
+    .browser-bar i { width: 7px; height: 7px; background: #606060; border-radius: 50%; }
+    .browser-bar span { flex: 1; text-align: center; padding-right: 33px; font-size: 11px; color: #999; }
+    .browser-screen { position: relative; aspect-ratio: 16 / 9; background: #141414; }
+    .slide { display: block; position: absolute; width: 100%; height: 100%; object-fit: contain; opacity: 1; transition: opacity 400ms ease; }
+    .slide[aria-hidden="true"] { opacity: 0; pointer-events: none; }
+    @media (prefers-reduced-motion: reduce) { .slide { transition: none; } }
+    .gallery-controls { display: flex; align-items: center; justify-content: center; gap: 3px; margin-top: 12px; }
+    .pager { display: flex; }
+    .pager button { position: relative; width: 36px; height: 36px; border: 0; background: none; color: #aaa; border-radius: 50%; }
+    .pager button::after { content: ""; position: absolute; width: 6px; height: 6px; top: 15px; left: 15px; border-radius: 50%; background: #666; }
+    .pager button[aria-current="true"]::after { background: var(--luxio-mint); }
+    .pager svg { position: absolute; inset: 5px; width: 26px; height: 26px; transform: rotate(-90deg); opacity: 0; }
+    .pager button[aria-current="true"] svg { opacity: 1; }
+    .pager circle { fill: none; stroke: #333; stroke-width: 1.8; }
+    .pager .countdown { stroke: var(--luxio-mint); stroke-dasharray: 100; stroke-dashoffset: 0; stroke-linecap: round; }
+    .animation-layout { display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr); gap: 32px; align-items: start; }
+    .animation-copy { grid-column: 2; grid-row: 1; text-align: right; padding-bottom: 24px; }
+    .animation-copy .chapter-title { align-items: flex-end; }
+    .animation-layout .lua-file { grid-column: 1; grid-row: 1; width: calc(100% - 24px); margin: 64px 0 0 24px; }
+    .animation-layout .lua-example { font-size: 13px; padding: 20px; }
+    .lua-file { position: relative; z-index: 1; box-shadow: 0 12px 28px #0006; max-width: 600px; margin: 28px auto 0; border: 1px solid #333; border-radius: 12px; background: #111; overflow: hidden; }
+    .lua-example { text-align: left; padding: 20px 24px; overflow-x: auto; color: #ddd; font-size: 15px; line-height: 1.8; }
+    .lua-example code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
+    .lua-comment { color: #909b96; }
+    .lua-keyword { color: #c4a7ff; }
+    .lua-function { color: var(--luxio-mint); }
+    .lua-number { color: #ffce85; }
+    .preview { margin-top: -24px; padding: 40px 24px 24px; border: 1px solid #333; border-radius: 12px; background: #111; }
+    #led-preview { display: block; width: 100%; height: 110px; }
+    .presets { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; }
+    .preset { border: 1px solid #393939; border-radius: 24px; padding: 8px 13px; color: #aaa; background: transparent; font-size: 14px; }
+    .preset:hover { color: #fff; border-color: #888; }
+    .preset[aria-pressed="true"] { color: var(--luxio-mint); border-color: var(--luxio-mint); background: #2eecb609; }
+    #preview-error { margin-top: 12px; color: #aaa; }
+    #hardware > .chapter-title { align-items: flex-start; text-align: left; }
+    .hardware-subtitle { color: #777; font-size: 20px; line-height: 1.65; text-align: left; }
+    .steps { max-width: 600px; margin: 32px 0 0; list-style: none; text-align: left; }
+    .steps > li:not(:last-child)::after { content: ""; display: block; width: 1px; height: 88px; margin: 28px 0 28px 23px; background: #393939; }
+    .steps h3 { display: flex; flex-direction: column; align-items: flex-start; gap: 16px; font-size: 28px; font-weight: 700; margin-bottom: 10px; }
+    .steps h3 svg { width: 46px; height: 46px; fill: none; stroke: #fff; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+    .strip-types { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; list-style: none; }
+    .strip-types li { display: inline-flex; align-items: center; gap: 8px; padding: 5px 12px; border: 1px solid #393939; border-radius: 20px; background: #111; color: #aaa; font-size: 14px; }
+    .strip-led { display: inline-flex; align-items: center; gap: 3px; flex-shrink: 0; }
+    .strip-led span { width: 8px; height: 8px; border-radius: 50%; }
+    .strip-led .led-red { background: #ff5151; }
+    .strip-led .led-green { background: #46e97a; }
+    .strip-led .led-blue { background: #3987ff; }
+    .strip-led .led-white { background: #fff4cc; }
+    .strip-led .led-warm { background: #ffd383; }
+    .strip-led .led-cool { background: #f1f7ff; }
+    .inline-add { display: inline-flex; align-items: center; justify-content: center; width: 24px; height: 24px; vertical-align: middle; margin: 0 3px; border: 1px solid #555; border-radius: 50%; background: #292929; color: #fff; }
+    .inline-add svg { width: 14px; height: 14px; fill: none; stroke: currentColor; stroke-width: 1.5; stroke-linecap: round; }
+    .steps p { font-size: 18px; color: #aaa; line-height: 1.6; }
+    .connections { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 24px; }
+    .connections > div { padding: 24px; border: 1px solid #333; border-radius: 12px; background: #111; }
+    .connections h3 { display: flex; flex-direction: column; gap: 12px; align-items: center; font-size: 24px; font-weight: 600; margin-bottom: 10px; }
+    .connections svg { width: 24px; height: 24px; stroke: var(--luxio-mint); fill: none; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+    #works-with h3 > svg, #works-with h3 > img { width: 32px; height: 32px; object-fit: contain; }
+    .connections p { font-size: 18px; color: #aaa; line-height: 1.6; }
+    .cli-example { margin-top: 24px; border: 1px solid #333; border-radius: 12px; background: #101010; overflow: hidden; box-shadow: 0 16px 48px #0006; }
+    .terminal-bar { display: flex; align-items: center; gap: 7px; height: 40px; padding: 0 16px; background: #1b1b1b; border-bottom: 1px solid #2c2c2c; }
+    .terminal-bar i { width: 9px; height: 9px; border-radius: 50%; background: #555; }
+    .terminal-bar span { flex: 1; padding-right: 48px; font-size: 13px; color: #999; }
+    .cli-example pre { text-align: left; padding: 24px; color: #ddd; overflow-x: auto; font-size: 15px; line-height: 2; }
+    .cli-example code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
+    .terminal-install { color: #777; }
+    .terminal-prompt { color: var(--luxio-mint); user-select: none; }
+    #footer { padding: 0 24px 50px; background: linear-gradient(#000, #171717); text-align: center; }
+    #footer p { max-width: 880px; margin: auto; padding-top: 44px; border-top: 1px solid #222; font-size: 15px; color: #888; line-height: 2; }
+    @media (max-width: 760px) {
+      #wrap { padding: 0 24px; }
+      #logo { gap: 16px; margin-top: 36px; }
+      #logo img { width: 120px; height: 120px; padding: 0; border-radius: 20px; }
+      #logo-text { font-size: 64px; letter-spacing: -2px; }
+      #hero { margin-top: 8px; }
+      #hero-title { font-size: 24px; letter-spacing: -.3px; }
+      .screenshot-stage { padding: 0 24px 60px 0; }
+      .screenshot-stage .phone-frame { width: 32%; padding: 3px; border-radius: 17px; }
+      .screenshot-stage .phone-screen { border-radius: 13px; }
+      .chapter { margin-bottom: 96px; }
+      .chapter-title { font-size: 34px; }
+      .connections { grid-template-columns: 1fr; }
+      #works-with .connections { padding-bottom: 0; }
+      #homey { margin-bottom: 100px; }
+      #homey .founder-note { left: 35%; width: 65%; }
+      .chapter-text { font-size: 19px; }
+      .animation-layout { display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr); gap: 32px; align-items: start; }
+    .animation-copy { grid-column: 2; grid-row: 1; text-align: right; padding-bottom: 24px; }
+    .animation-copy .chapter-title { align-items: flex-end; }
+    .animation-layout .lua-file { grid-column: 1; grid-row: 1; width: calc(100% - 24px); margin: 64px 0 0 24px; }
+    .animation-layout .lua-example { font-size: 13px; padding: 20px; }
+    .lua-file { width: calc(100% - 24px); }
+      .preview { margin-top: -16px; padding: 28px 14px 20px; }
+      .preset { font-size: 13px; padding: 8px 11px; }
+      .cli-example pre { font-size: 13px; padding: 18px; }
     }
   </style>
 </head>
-
 <body>
-  <div id="wrap">
-    <div id="logo">
-      <div id="logo-icon"></div>
-      <div id="logo-text">Luxio</div>
-    </div>
-
-    <div id="hero">
-      <div id="hero-text">
-        <h1 id="hero-title">Open Source<br />
-          Wi-Fi <span id="hero-title-gradient">Gradient</span><br />
-          LED Strips</h1>
-
-        <div id="hero-intro">
-          <p>Luxio are open source <span style="word-break: keep-all;">Wi-Fi</span> LED Strips, that can control every
-            pixel's color
-            to create beautiful gradients & animations.</p>
-          <!-- <p>There's firmware, an iOS & Android app, automatic updates and a command-line tool for powerusers.</p> -->
+  <main id="wrap">
+    <div id="logo"><img src="./img/luxio-jellyfish-1024.png" alt="" width="144" height="144" /><div id="logo-text">Luxio</div></div>
+    <section id="hero" aria-labelledby="hero-title">
+      <div>
+        <h1 id="hero-title">Open Source Wi-Fi <span class="gradient-text">Gradient</span> LED Strips</h1>
+      </div>
+    </section>
+    <section class="gallery chapter" id="web-gallery" role="region" aria-roledescription="carousel" aria-label="Web and iOS app screenshots">
+      <div class="screenshot-stage">
+        <div class="browser-frame">
+        <div class="browser-bar" aria-hidden="true"><i></i><i></i><i></i><span>app.luxio.lighting</span></div>
+        <div class="browser-screen">
+          <img class="slide" src="./img/screenshots/web-gradient.png?v=2" width="1600" height="900" alt="Luxio web app with lights, gradient editor and color presets" data-caption="Colors &amp; gradients" loading="lazy" />
+          <img class="slide" src="./img/screenshots/web-color.png?v=2" width="1600" height="900" alt="Luxio web app with a color wheel and saved color presets" data-caption="Every color, every pixel" loading="lazy" hidden />
+          <img class="slide" src="./img/screenshots/web-animation.png?v=2" width="1600" height="900" alt="Luxio web app animation presets" data-caption="Pick an animation" loading="lazy" hidden />
+          <img class="slide" src="./img/screenshots/web-setup.png" width="1600" height="900" alt="Luxio web app setup dialog for flashing an ESP32 over USB" data-caption="Set up your Luxio" loading="lazy" hidden />
+          <img class="slide" src="./img/screenshots/web-editor.png" width="1600" height="900" alt="Luxio Studio Lua editor with a running LED simulation" data-caption="Create with Lua" loading="lazy" hidden />
         </div>
       </div>
-
-      <div id="hero-screenshot">
-        <a
-          id="hero-screenshot-ios"
-          href="https://apps.apple.com/app/luxio/id6464080905"
-          target="_blank"
-        >
-          <img src="./img/ios.svg" />
-        </a>
-
-        <a
-          id="hero-screenshot-android"
-          href="https://play.google.com/store/apps/details?id=lighting.luxio.android"
-          target="_blank"
-        >
-          <img src="./img/android.svg" />
-        </a>
+        <div class="phone-frame"><div class="phone-screen">
+          <img class="slide" src="./img/screenshots/ios-home.png" width="1320" height="2868" alt="Luxio iOS app showing lights throughout the home" data-caption="All your lights" fetchpriority="high" />
+          <img class="slide" src="./img/screenshots/ios-gradient.png" width="1320" height="2868" alt="Gradient color editor in the Luxio iOS app" data-caption="Colors &amp; gradients" hidden />
+          <img class="slide" src="./img/screenshots/ios-animation.png" width="1320" height="2868" alt="Cyberpunk animation and its controls in the Luxio iOS app" data-caption="Animations" hidden />
+          <img class="slide" src="./img/screenshots/ios-settings.png" width="1320" height="2868" alt="Device and network settings in the Luxio iOS app" data-caption="Device settings" hidden />
+          <img class="slide" src="./img/screenshots/ios-matter.png" width="1320" height="2868" alt="Matter pairing screen in the Luxio iOS app" data-caption="Matter pairing" hidden />
+        </div></div>
       </div>
-    </div>
-
-    <div class="chapter">
-      <h2 class="chapter-title">Get Started</h2>
-      <p class="chapter-subtitle">Three simple steps to get started.</p>
-
-      <div class="steps">
-        <div class="step">
-          <div class="shopping-list">
-            <div class="shopping-list-title">Shopping List</div>
-            <div class="shopping-list-item">
-              <a
-                class="shopping-list-item-title"
-                href="https://www.aliexpress.com/item/1005005407298963.html"
-                target="_blank"
-              >Wemos D1 mini V4</a>
-              <span class="shopping-list-item-price">&euro; 2</span>
-            </div>
-            <div class="shopping-list-item">
-              <a
-                class="shopping-list-item-title"
-                href="https://www.aliexpress.com/item/1005005288299757.html"
-                target="_blank"
-              >WS2812b LED Strip (2m)</a>
-              <span class="shopping-list-item-price">&euro; 6</span>
-            </div>
-            <div class="shopping-list-item">
-              <a
-                class="shopping-list-item-title"
-                href="https://aliexpress.com/w/wholesale-USB%2525252dC-Cable.html"
-                target="_blank"
-              >USB-C Cable</a>
-              <span class="shopping-list-item-price">&euro; 1</span>
-            </div>
-            <div class="shopping-list-item">
-              <a
-                class="shopping-list-item-title"
-                href="https://aliexpress.com/w/wholesale-USB%2525252dC-Adapter-5V-3A.html"
-                target="_blank"
-              >USB-C Adapter</a>
-              <span class="shopping-list-item-price">&euro; 4</span>
-            </div>
-            <div class="shopping-list-item shopping-list-total">
-              <div class="shopping-list-item-title shopping-list-total-title">Total</div>
-              <span class="shopping-list-item-price">&euro; 13</span>
-            </div>
-          </div>
-          <img
-            class="step-icon"
-            src="./img/step-buy.svg"
-          />
-          <h3 class="step-title">Buy the hardware</h3>
-          <p class="step-instruction">Everything you need for a single Luxio LED Strip can be bought on AliExpress for
-            less than € 20 total. <a
-              href="https://wiki.luxio.lighting/getting-started/hardware"
-              target="_blank"
-            >Learn more »</a>
-          </p>
-        </div>
-        <div class="step">
-          <img
-            class="step-icon"
-            src="./img/step-solder.svg"
-          />
-          <h3 class="step-title">Solder three wires</h3>
-          <p class="step-instruction">Even if you don't have any soldering experience, it's quite easy, and makes for
-            a great first project! <a
-              href="https://wiki.luxio.lighting/getting-started/soldering"
-              target="_blank"
-            >Learn how »</a>
-          </p>
-        </div>
-        <div class="step">
-          <img
-            class="step-icon"
-            src="./img/step-flash.svg"
-          />
-          <h3 class="step-title">Flash the controller</h3>
-          <p class="step-instruction">Connect the USB-C of the Wemos D1 mini to your PC or Mac, and visit the <a
-              href="https://flash.luxio.lighting"
-              target="_blank"
-            >Luxio Flash Tool</a> in Google Chrome or Microsoft Edge to flash it once. <span style="opacity: 0.7">From
-              then on, software updates will be installed automatically.</span></p>
-        </div>
+      <div class="gallery-controls" hidden><div class="pager" role="group" aria-label="Choose web and iOS screenshots"></div></div>
+      <div class="app-links">
+        <a target="_blank" rel="noopener noreferrer" class="web-link" href="https://app.luxio.lighting"><img src="./img/brands/chrome-monochrome.svg" width="22" height="22" alt="" />Web App</a>
+        <a target="_blank" rel="noopener noreferrer" href="https://apps.apple.com/app/luxio/id6464080905" onclick="event.preventDefault(); alert(&quot;Currently the iOS app is waiting for Apple's review.&quot;);"><img src="./img/ios.svg?v=2" alt="Download on the App Store" /></a>
+        <a target="_blank" rel="noopener noreferrer" href="https://play.google.com/store/apps/details?id=lighting.luxio.android" onclick="event.preventDefault(); alert(&quot;Currently the Android app is waiting for Google's review.&quot;);"><img src="./img/android.svg?v=2" alt="Get it on Google Play" /></a>
       </div>
-    </div>
+    </section>
+    <section class="chapter" id="hardware">
+      <h2 class="chapter-title"><span class="gradient-text">Get Started</span></h2>
+      <p class="hardware-subtitle">Three easy steps to make your own Wi-Fi LED strip.</p>
+      <ol class="steps" role="list">
+        <li>
+          <h3><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 7h14l1 14H4L5 7Z"/><path d="M8 9V6a4 4 0 0 1 8 0v3"/></svg>Shop for hardware</h3>
+          <p>Buy an ESP32-based LED controller, a power supply and a LED strip.</p>
+          <ul class="strip-types" aria-label="Supported ESP32 boards" role="list">
+            <li>ESP32</li><li>ESP32-S3</li><li>ESP32-C3</li><li>ESP32-C5</li><li>ESP32-C6</li>
+          </ul>
+        </li>
+        <li>
+          <h3><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 3h14a5 5 0 0 1 0 10H7a1 1 0 0 0 0 2h14v4H7a5 5 0 0 1 0-10h10a1 1 0 0 0 0-2H3Z"/><path d="M6 5h.01M11 5h.01M16 5h.01M20 8h.01M16 11h.01M11 11h.01M6 11h.01M4 14h.01M7 17h.01M12 17h.01M17 17h.01" stroke-width="1.8"/></svg>Connect the LEDs</h3>
+          <p>Connect your strip and power supply following your controller’s instructions.</p>
+          <ul class="strip-types" aria-label="Supported LED strips" role="list">
+            <li><span class="strip-led" aria-hidden="true"><span class="led-red"></span><span class="led-green"></span><span class="led-blue"></span></span>WS2812</li>
+            <li><span class="strip-led" aria-hidden="true"><span class="led-red"></span><span class="led-green"></span><span class="led-blue"></span><span class="led-white"></span></span>WS2814</li>
+            <li><span class="strip-led" aria-hidden="true"><span class="led-red"></span><span class="led-green"></span><span class="led-blue"></span><span class="led-cool"></span><span class="led-warm"></span></span>WS2805</li>
+            <li><span class="strip-led" aria-hidden="true"><span class="led-red"></span><span class="led-green"></span><span class="led-blue"></span><span class="led-white"></span></span>SK6812</li>
+          </ul>
+        </li>
+        <li>
+          <h3><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m13 2-10 12h9l-1 8 10-12h-9l1-8Z"/></svg>Flash &amp; Connect</h3>
+          <p>Open the <a href="https://app.luxio.lighting" target="_blank" rel="noopener noreferrer">Luxio Web App</a>, add a new device by tapping <span class="inline-add" role="img" aria-label="the plus button"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 3v10M3 8h10"/></svg></span> and flash via USB.</p>
+        </li>
+      </ol>
+    </section>
+    <section class="chapter" id="connectivity">
+      <h2 class="chapter-title"><span class="gradient-text">Connectivity</span></h2>
+      <p class="chapter-text">Connect your way. Set up and control your lights over Wi-Fi, Bluetooth or USB.</p>
+      <div class="connections">
+        <div><h3><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 8a16 16 0 0 1 20 0M5 12a11 11 0 0 1 14 0M8.5 16a5.5 5.5 0 0 1 7 0"/><circle cx="12" cy="20" r=".8"/></svg>Wi-Fi</h3><p>Control your Luxios on your home network.</p></div>
+        <div><h3><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 7 12 10-6 5V2l6 5L6 17"/></svg>Bluetooth</h3><p>Connect anywhere from iPhone or Android.</p></div>
+        <div><h3><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 9V2h8v7M7 9h10v6a3 3 0 0 1-3 3h-4a3 3 0 0 1-3-3V9Zm5 9v4M10.5 5v1M13.5 5v1"/></svg>USB</h3><p>Plug in to install, configure and even control.</p></div>
+      </div>
+    </section>
+    <section class="chapter" id="animations">
+      <div class="animation-layout">
+        <div class="animation-copy">
+      <h2 class="chapter-title"><span class="gradient-text">Lua-nimations</span></h2>
+      <p class="chapter-text">Apply one of the presets, or code your own animation. Try <a href="https://app.luxio.lighting">Luxio Studio</a> on the web in a simulator or a real device.</p>
+        </div>
+      <div class="lua-file">
+        <pre class="lua-example" aria-label="Lua rainbow animation example" tabindex="0"><code><span class="lua-comment">-- A rainbow that moves along your strip.</span>
+<span class="lua-keyword">function</span> <span class="lua-function">loop</span>()
+  <span class="lua-keyword">local</span> count = <span class="lua-function">luxio_get_pixel_count</span>()
+  <span class="lua-keyword">local</span> time = <span class="lua-function">luxio_millis</span>() / <span class="lua-number">20000</span>
 
-    <div class="chapter">
-      <h2 class="chapter-title">Luxio CLI</h2>
-      <p class="chapter-subtitle">Control any Luxio using the Command-Line Interface.</p>
-
+  <span class="lua-function">luxio_fill_hsv</span>(time, <span class="lua-number">1</span> / count)
+<span class="lua-keyword">end</span></code></pre>
+      </div>
+      </div>
+      <div class="preview" id="animation-preview">
+        <canvas id="led-preview" width="832" height="110" role="img" aria-label="Live preview of the Cyberpunk animation on 60 LEDs"></canvas>
+        <div id="presets" class="presets" role="group" aria-label="Animation presets"></div>
+        <p id="preview-error" role="status" hidden>Preview unavailable. <a href="https://app.luxio.lighting">Try the presets in the web app ↗</a></p>
+        <noscript><p class="chapter-text">Enable JavaScript to try the animation presets.</p></noscript>
+      </div>
+    </section>
+    <section class="chapter" id="works-with">
+      <h2 class="chapter-title"><span class="gradient-text">Works with your Smart Home</span></h2>
+      <p class="chapter-text">Connect Luxio to your smart home and everyday automations.</p>
+      <div class="connections">
+        <div id="homey"><h3><img src="./img/brands/homey.png" width="32" height="32" alt="" />Homey</h3><p>Luxio works seamlessly with <a href="https://homey.app/homey-pro" target="_blank" rel="noopener noreferrer">Homey Pro</a> and <a href="https://homey.app/homey-self-hosted-server" target="_blank" rel="noopener noreferrer">Homey Self-Hosted Server</a>. </p><aside class="founder-note"><svg viewBox="0 0 52 48" aria-hidden="true"><path d="M43 43C16 43 9 28 14 7m-7 8 7-8 6 10"/></svg>Also founded by<br>Emile Nijssen</aside></div>
+        <div><h3><img src="./img/brands/home-assistant.svg" width="32" height="32" alt="" />Home Assistant</h3><p>Connect Luxio to your Home Assistant installation via LAN.</p></div>
+        <!-- Matter symbol: Connectivity Standards Alliance, via https://commons.wikimedia.org/wiki/File:Logo_of_Matter_connectivity_standard.svg -->
+        <div id="matter"><h3><svg class="matter-icon" viewBox="0 0 74.325 72.644" aria-hidden="true"><path d="M65.715 32.905c-7.996 2.19-15.164 7.406-19.636 15.152s-5.407 16.568-3.306 24.587l7.835-4.526a23.9 23.9 0 0 1 1.105-11.836l18.309 10.569 4.303-2.487v-4.967L56.016 48.829a23.92 23.92 0 0 1 9.699-6.879zm-57.108 0v9.045a23.91 23.91 0 0 1 9.699 6.879L0 59.398v4.967l4.303 2.487 18.306-10.569c1.39 3.868 1.726 7.938 1.108 11.836l7.832 4.526c2.101-8.02 1.167-16.841-3.306-24.587A32.52 32.52 0 0 0 8.607 32.905zM37.161 0l-4.303 2.484v21.138c-4.046-.731-7.736-2.476-10.804-4.961l-7.838 4.522c5.895 5.83 14 9.429 22.946 9.429s17.051-3.599 22.946-9.429l-7.835-4.522a23.92 23.92 0 0 1-10.807 4.961V2.484z"/></svg>Matter</h3><p>Connect with Apple Home, Google Home, Alexa and others.</p></div>
+      </div>
+    </section>
+    <section class="chapter" id="cli">
+      <h2 class="chapter-title"><span class="gradient-text">Script with Luxio CLI</span></h2>
+      <p class="chapter-text">Control Luxio from scripts and cronjobs. Discover lights, set colors and play animations from your terminal.</p>
       <div class="cli-example">
-        <pre><div class="cli-example-inner"><span style="opacity: 0.5">$ npm install -g @luxio-lighting/cli</span>
-$ luxio set-on --device "Luxio Bedroom"
-$ luxio set-brightness --brightness "75%"
-$ luxio set-gradient --colors "#FF0000, #00FF00, #0000FF"</div></pre>
+        <div class="terminal-bar" aria-hidden="true"><i></i><i></i><i></i><span>Terminal</span></div>
+        <pre aria-label="Luxio CLI command examples" tabindex="0"><code><span class="terminal-prompt">$</span> <span class="terminal-install">npm install -g @luxio-lighting/cli</span>
+<span class="terminal-prompt">$</span> luxio --device "Living Room" on
+<span class="terminal-prompt">$</span> luxio --device "Living Room" brightness 192
+<span class="terminal-prompt">$</span> luxio --device "Living Room" set-gradient ff0000,00ff00,0000ff</code></pre>
       </div>
-    </div>
-
-    <div class="chapter">
-      <h2 class="chapter-title">Homey</h2>
-      <p class="chapter-subtitle">Connect Luxio with Homey Pro.</p>
-
-      <p class="chapter-text">Homey is the world's most advanced smart home platform, connecting your entire smart home
-        in a single
-        place. It's also the best way to control Luxio out-of-home, and through Google Assistant, Alexa & Siri.</p>
-      </p>
-      <p class="chapter-text">Get the Homey Pro app for Luxio in the <a
-          href="https://homey.app/a/lighting.luxio.homey/test/"
-          target="_blank"
-        >Homey App Store</a>.</p>
-    </div>
-
-  </div>
-
-  <div id="footer">
-    <p id="footer-text">
-      &copy; Luxio Lighting • Created by <a href="https://emile.nl">Emile Nijssen</a> • Source on <a
-        href="https://github.com/luxio-lighting"
-      >GitHub</a>
-    </p>
-  </div>
-
+    </section>
+  </main>
+  <footer id="footer"><p>© Luxio Lighting · Created by <a href="https://emile.nl">Emile Nijssen</a> · Source on <a href="https://github.com/luxio-lighting">GitHub</a> · <a href="./privacy.html">Privacy</a></p></footer>
+  <script src="./assets/galleries.js?v=3" defer></script>
+  <script type="module" src="./assets/preview.js?v=5"></script>
 </body>
-
 </html>

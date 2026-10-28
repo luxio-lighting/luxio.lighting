@@ -28,7 +28,7 @@ jobs:
         run: |
           mkdir _site
           cp index.html privacy.html CNAME .nojekyll _site/
-          cp -R img _site/img
+          cp -R img assets _site/
       - uses: actions/upload-pages-artifact@v4
         with:
           path: _site

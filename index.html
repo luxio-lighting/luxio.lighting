@@ -5,6 +5,23 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="description" content="Open source LED lighting. Beautiful gradients, Lua animations and Matter support. Control Luxio over Wi-Fi, Bluetooth or USB." />
   <title>Luxio — Open Source Wi-Fi Gradient LED Strips</title>
+  <link rel="canonical" href="https://luxio.lighting/" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Luxio" />
+  <meta property="og:locale" content="en_US" />
+  <meta property="og:url" content="https://luxio.lighting/" />
+  <meta property="og:title" content="Luxio — Open Source Wi-Fi Gradient LED Strips" />
+  <meta property="og:description" content="Beautiful gradients, Lua animations and smart home control. Build your own LED lighting with Luxio, over Wi-Fi, Bluetooth or USB." />
+  <meta property="og:image" content="https://luxio.lighting/img/og-image.png" />
+  <meta property="og:image:type" content="image/png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="Luxio jellyfish logo with web and mobile previews of its LED gradient controls." />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Luxio — Open Source Wi-Fi Gradient LED Strips" />
+  <meta name="twitter:description" content="Beautiful gradients, Lua animations and smart home control. Build your own LED lighting with Luxio, over Wi-Fi, Bluetooth or USB." />
+  <meta name="twitter:image" content="https://luxio.lighting/img/og-image.png" />
+  <meta name="twitter:image:alt" content="Luxio jellyfish logo with web and mobile previews of its LED gradient controls." />
   <link rel="icon" href="./img/favicon.ico" sizes="16x16 32x32 48x48" />
   <link rel="icon" type="image/png" sizes="32x32" href="./img/favicon-32x32.png" />
   <link rel="apple-touch-icon" href="./img/apple-touch-icon.png" />
@@ -111,6 +128,7 @@
     .strip-led .led-cool { background: #f1f7ff; }
     .inline-add { display: inline-flex; align-items: center; justify-content: center; width: 24px; height: 24px; vertical-align: middle; margin: 0 3px; border: 1px solid #555; border-radius: 50%; background: #292929; color: #fff; }
     .inline-add svg { width: 14px; height: 14px; fill: none; stroke: currentColor; stroke-width: 1.5; stroke-linecap: round; }
+    .steps h3 img { width: 46px; height: 46px; }
     .steps p { font-size: 18px; color: #aaa; line-height: 1.6; }
     .connections { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 24px; }
     .connections > div { padding: 24px; border: 1px solid #333; border-radius: 12px; background: #111; }
@@ -170,11 +188,11 @@
         <div class="browser-frame">
         <div class="browser-bar" aria-hidden="true"><i></i><i></i><i></i><span>app.luxio.lighting</span></div>
         <div class="browser-screen">
-          <img class="slide" src="./img/screenshots/web-gradient.png?v=2" width="1600" height="900" alt="Luxio web app with lights, gradient editor and color presets" data-caption="Colors &amp; gradients" loading="lazy" />
-          <img class="slide" src="./img/screenshots/web-color.png?v=2" width="1600" height="900" alt="Luxio web app with a color wheel and saved color presets" data-caption="Every color, every pixel" loading="lazy" hidden />
-          <img class="slide" src="./img/screenshots/web-animation.png?v=2" width="1600" height="900" alt="Luxio web app animation presets" data-caption="Pick an animation" loading="lazy" hidden />
-          <img class="slide" src="./img/screenshots/web-setup.png" width="1600" height="900" alt="Luxio web app setup dialog for flashing an ESP32 over USB" data-caption="Set up your Luxio" loading="lazy" hidden />
-          <img class="slide" src="./img/screenshots/web-editor.png" width="1600" height="900" alt="Luxio Studio Lua editor with a running LED simulation" data-caption="Create with Lua" loading="lazy" hidden />
+          <img class="slide" src="./img/screenshots/web-gradient.png?v=3" width="1600" height="900" alt="Luxio web app with lights, gradient editor and color presets" data-caption="Colors &amp; gradients" loading="lazy" />
+          <img class="slide" src="./img/screenshots/web-color.png?v=3" width="1600" height="900" alt="Luxio web app with a color wheel and saved color presets" data-caption="Every color, every pixel" loading="lazy" hidden />
+          <img class="slide" src="./img/screenshots/web-animation.png?v=3" width="1600" height="900" alt="Luxio web app animation presets" data-caption="Pick an animation" loading="lazy" hidden />
+          <img class="slide" src="./img/screenshots/web-setup.png?v=3" width="1600" height="900" alt="Luxio web app setup dialog for flashing an ESP32 over USB" data-caption="Set up your Luxio" loading="lazy" hidden />
+          <img class="slide" src="./img/screenshots/web-editor.png?v=3" width="1600" height="900" alt="Luxio Studio Lua editor with a running LED simulation" data-caption="Create with Lua" loading="lazy" hidden />
         </div>
       </div>
         <div class="phone-frame"><div class="phone-screen">
@@ -200,14 +218,18 @@
           <h3><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 7h14l1 14H4L5 7Z"/><path d="M8 9V6a4 4 0 0 1 8 0v3"/></svg>Shop for hardware</h3>
           <p>Buy an ESP32-based LED controller, a power supply and a LED strip.</p>
           <ul class="strip-types" aria-label="Supported ESP32 boards" role="list">
-            <li>ESP32</li><li>ESP32-S3</li><li>ESP32-C3</li><li>ESP32-C5</li><li>ESP32-C6</li>
+            <li>ESP32</li><li>ESP32-S3</li><li title="Requires at least 8 MB flash. Arduino 4 development SDK; hardware testing pending.">ESP32-S31 (Preview, 8 MB+)</li><li>ESP32-C3</li><li>ESP32-C5</li><li>ESP32-C6</li>
           </ul>
         </li>
         <li>
-          <h3><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 3h14a5 5 0 0 1 0 10H7a1 1 0 0 0 0 2h14v4H7a5 5 0 0 1 0-10h10a1 1 0 0 0 0-2H3Z"/><path d="M6 5h.01M11 5h.01M16 5h.01M20 8h.01M16 11h.01M11 11h.01M6 11h.01M4 14h.01M7 17h.01M12 17h.01M17 17h.01" stroke-width="1.8"/></svg>Connect the LEDs</h3>
+          <h3><img src="img/led-strip.svg" alt="" width="46" height="46">Connect the LEDs</h3>
           <p>Connect your strip and power supply following your controller’s instructions.</p>
           <ul class="strip-types" aria-label="Supported LED strips" role="list">
+            <li><span class="strip-led" aria-hidden="true"><span class="led-red"></span><span class="led-green"></span><span class="led-blue"></span></span>WS2811</li>
             <li><span class="strip-led" aria-hidden="true"><span class="led-red"></span><span class="led-green"></span><span class="led-blue"></span></span>WS2812</li>
+            <li><span class="strip-led" aria-hidden="true"><span class="led-red"></span><span class="led-green"></span><span class="led-blue"></span></span>WS2812B</li>
+            <li><span class="strip-led" aria-hidden="true"><span class="led-red"></span><span class="led-green"></span><span class="led-blue"></span></span>WS2813</li>
+            <li><span class="strip-led" aria-hidden="true"><span class="led-red"></span><span class="led-green"></span><span class="led-blue"></span></span>WS2815</li>
             <li><span class="strip-led" aria-hidden="true"><span class="led-red"></span><span class="led-green"></span><span class="led-blue"></span><span class="led-white"></span></span>WS2814</li>
             <li><span class="strip-led" aria-hidden="true"><span class="led-red"></span><span class="led-green"></span><span class="led-blue"></span><span class="led-white"></span></span>SK6812</li>
             <li><span class="strip-led" aria-hidden="true"><span class="led-red"></span><span class="led-green"></span><span class="led-blue"></span><span class="led-cool"></span><span class="led-warm"></span></span>WS2805</li>

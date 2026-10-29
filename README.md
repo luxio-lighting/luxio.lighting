@@ -18,9 +18,9 @@ for both slideshows and the LED preview.
 ## Screenshots
 
 `img/screenshots/` contains original 1320 × 2868 iOS marketing-v2 PNGs and
-1600 × 900 web views from the README sample-device fixture, with the mobile app
-banner dismissed. The browser capture tool provides JPEG; these desktop captures
-are stored as PNG without further lossy encoding, but are not lossless originals. The Lua section shows a selectable, syntax-highlighted script example. No physical devices were
+3200 × 1800 lossless web PNGs captured in Google Chrome at a 1600 × 900 viewport
+with a 2× device pixel ratio, with the mobile app banner dismissed. Copies and
+capture details are saved in the web app repository under `docs/screenshots/`. The Lua section shows a selectable, syntax-highlighted script example. No physical devices were
 controlled. Source checkouts at capture time:
 
 - `luxio-ios/release/marketing-v2/raw/`: home, gradient, animation, settings, Matter.

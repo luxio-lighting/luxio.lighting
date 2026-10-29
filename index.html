@@ -116,6 +116,27 @@
     .steps > li:not(:last-child)::after { content: ""; display: block; width: 1px; height: 88px; margin: 28px 0 28px 23px; background: #393939; }
     .steps h3 { display: flex; flex-direction: column; align-items: flex-start; gap: 16px; font-size: 30px; font-weight: 700; margin-bottom: 10px; }
     .steps h3 svg { width: 46px; height: 46px; fill: none; stroke: #fff; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+    .controllers-link { border: 0; padding: 0; background: none; color: var(--luxio-mint); }
+    .controllers-link:hover { text-decoration: underline; }
+    .controllers-dialog { width: min(820px, calc(100% - 32px)); max-height: calc(100% - 48px); margin: auto; padding: 24px; border: 1px solid #393939; border-radius: 16px; background: #111; color: #fff; box-shadow: 0 24px 80px #0009; }
+    .controllers-dialog::backdrop { background: #000b; backdrop-filter: blur(6px); }
+    .controllers-heading { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-bottom: 20px; }
+    .controllers-heading h2 { font-size: 26px; line-height: 1.3; }
+    .controllers-close { display: grid; place-items: center; flex-shrink: 0; width: 36px; height: 36px; border: 1px solid #393939; border-radius: 50%; background: #1b1b1b; color: #aaa; font-size: 24px; }
+    .controllers-close:hover { color: #fff; border-color: #777; }
+    .controllers-table-wrap { overflow-x: auto; }
+    .controllers-table { width: 100%; border-collapse: collapse; text-align: left; font-size: 16px; white-space: nowrap; }
+    .controllers-table th, .controllers-table td { padding: 14px 12px; border-bottom: 1px solid #292929; }
+    .controllers-table th { font-weight: 600; }
+    .controllers-table th button { border: 0; padding: 0; background: none; color: #fff; }
+    .controllers-table th button::after { content: " ↕"; color: #666; }
+    .controllers-table th[aria-sort="ascending"] button::after { content: " ↑"; color: var(--luxio-mint); }
+    .controllers-table th[aria-sort="descending"] button::after { content: " ↓"; color: var(--luxio-mint); }
+    .controllers-table td { color: #aaa; }
+    .controllers-table tr:last-child td { border-bottom: 0; }
+    .controllers-table .relay-yes { color: var(--luxio-mint); }
+    .controllers-footnote { margin: 20px 0 0; color: #888; font-size: 14px; line-height: 1.6; text-align: left; }
+    html:has(.controllers-dialog[open]) { overflow: hidden; }
     .strip-types { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; list-style: none; }
     .strip-types li { display: inline-flex; align-items: center; gap: 8px; padding: 5px 12px; border: 1px solid #393939; border-radius: 20px; background: #111; color: #aaa; font-size: 14px; }
     .strip-led { display: inline-flex; align-items: center; gap: 3px; flex-shrink: 0; }
@@ -216,7 +237,7 @@
       <ol class="steps" role="list">
         <li>
           <h3><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 7h14l1 14H4L5 7Z"/><path d="M8 9V6a4 4 0 0 1 8 0v3"/></svg>Shop for hardware</h3>
-          <p>Buy an ESP32-based LED controller, a power supply and a LED strip.</p>
+          <p>Buy an ESP32-based LED controller, a power supply and a LED strip. <button class="controllers-link" type="button" aria-haspopup="dialog" aria-controls="controllers-dialog">Recommended Controllers »</button></p>
           <ul class="strip-types" aria-label="Supported ESP32 boards" role="list">
             <li>ESP32</li><li>ESP32-S3</li><li title="Requires at least 8 MB flash. Arduino 4 development SDK; hardware testing pending.">ESP32-S31</li><li>ESP32-C3</li><li>ESP32-C5</li><li>ESP32-C6</li>
           </ul>
@@ -296,6 +317,32 @@
     </section>
   </main>
   <footer id="footer"><p>© Luxio Lighting · Created by <a href="https://emile.nl">Emile Nijssen</a> · Source on <a href="https://github.com/luxio-lighting">GitHub</a> · <a href="./privacy.html">Privacy</a></p></footer>
+  <dialog class="controllers-dialog" id="controllers-dialog" aria-labelledby="controllers-title">
+    <div class="controllers-heading">
+      <h2 id="controllers-title">Recommended Controllers</h2>
+      <button class="controllers-close" type="button" aria-label="Close recommended controllers" autofocus>×</button>
+    </div>
+    <div class="controllers-table-wrap" role="region" aria-label="Recommended controllers, sortable by column" tabindex="0">
+      <table class="controllers-table">
+        <thead><tr>
+          <th scope="col"><button type="button">Manufacturer</button></th>
+          <th scope="col"><button type="button">Model</button></th>
+          <th scope="col"><button type="button" title="Sort by maximum input voltage">Voltage</button></th>
+          <th scope="col"><button type="button">Relay</button></th>
+          <th scope="col"><button type="button">Link</button></th>
+        </tr></thead>
+        <tbody>
+          <tr><td>WEMOS</td><td>S3 mini</td><td data-sort="5">5V</td><td data-sort="0" aria-label="No relay">—</td><td><a href="https://www.wemos.cc/en/latest/s3/s3_mini.html" target="_blank" rel="noopener noreferrer" aria-label="WEMOS S3 mini product page">View »</a></td></tr>
+          <tr><td>WEMOS</td><td>C3 pico</td><td data-sort="5">5V</td><td data-sort="0" aria-label="No relay">—</td><td><a href="https://www.wemos.cc/en/latest/c3/c3_pico.html" target="_blank" rel="noopener noreferrer" aria-label="WEMOS C3 pico product page">View »</a></td></tr>
+          <tr><td>WEMOS</td><td>C3 mini</td><td data-sort="5">5V</td><td data-sort="0" aria-label="No relay">—</td><td><a href="https://www.wemos.cc/en/latest/c3/c3_mini.html" target="_blank" rel="noopener noreferrer" aria-label="WEMOS C3 mini product page">View »</a></td></tr>
+          <tr><td>WEMOS</td><td>D32</td><td data-sort="5">5V</td><td data-sort="0" aria-label="No relay">—</td><td><a href="https://www.wemos.cc/en/latest/d32/d32.html" target="_blank" rel="noopener noreferrer" aria-label="WEMOS D32 product page">View »</a></td></tr>
+          <tr><td>GLEDOPTO</td><td>GL-C-016WL-D</td><td data-sort="24">5V — 24V</td><td data-sort="1" class="relay-yes" aria-label="Relay included">✓</td><td><a href="https://www.gledopto.eu/gledopto-esp32-wled-uart_1" target="_blank" rel="noopener noreferrer" aria-label="GLEDOPTO GL-C-016WL-D product page">View »</a></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="controllers-footnote">All ESP32-family controllers on <a href="https://kno.wled.ge/basics/compatible-controllers/" target="_blank" rel="noopener noreferrer">WLED’s compatible controllers list</a> should in theory work with Luxio if they can be flashed over USB.</p>
+  </dialog>
+  <script src="./assets/controllers.js" defer></script>
   <script src="./assets/galleries.js?v=3" defer></script>
   <script type="module" src="./assets/preview.js?v=5"></script>
 </body>

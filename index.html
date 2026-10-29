@@ -145,12 +145,11 @@
       #homey { margin-bottom: 100px; }
       #homey .founder-note { left: 35%; width: 65%; }
       .chapter-text { font-size: 19px; }
-      .animation-layout { display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr); gap: 32px; align-items: start; }
-    .animation-copy { grid-column: 2; grid-row: 1; text-align: right; padding-bottom: 24px; }
-    .animation-copy .chapter-title { align-items: flex-end; }
-    .animation-layout .lua-file { grid-column: 1; grid-row: 1; width: calc(100% - 24px); margin: 64px 0 0 24px; }
-    .animation-layout .lua-example { font-size: 13px; padding: 20px; }
-    .lua-file { width: calc(100% - 24px); }
+      .animation-layout { display: flex; flex-direction: column; gap: 24px; align-items: stretch; }
+      .animation-copy { text-align: center; padding-bottom: 0; }
+      .animation-copy .chapter-title { align-items: center; }
+      .animation-layout .lua-file { width: calc(100% - 24px); min-width: 0; margin: 0 auto; }
+      .animation-layout .lua-example { font-size: 13px; padding: 16px; }
       .preview { margin-top: -16px; padding: 28px 14px 20px; }
       .preset { font-size: 13px; padding: 8px 11px; }
       .cli-example pre { font-size: 13px; padding: 18px; }

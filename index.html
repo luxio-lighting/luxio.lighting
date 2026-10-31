@@ -38,8 +38,9 @@
     #homey p:not(.app-link) a { color: inherit; }
     #works-with .app-link { margin-top: 12px; }
     #works-with .connections { padding-bottom: 100px; }
-    #homey .founder-note { position: absolute; top: calc(100% + 30px); left: 40%; width: 210px; color: #999; font-family: Caveat, cursive; font-size: 25px; line-height: 1.15; transform: rotate(-4deg); }
-    #homey .founder-note svg { position: absolute; width: 52px; height: 48px; top: -35px; left: -12px; stroke: #999; stroke-width: 1.5; }
+    #homey .founder-note { position: absolute; top: calc(100% + 8px); left: 35%; display: flex; align-items: flex-start; gap: 3px; width: 300px; color: #999; font-family: Caveat, cursive; font-size: 25px; line-height: 1.15; transform: rotate(-4deg); }
+    #homey .founder-note svg { flex: 0 0 52px; width: 52px; height: 48px; stroke: #999; stroke-width: 1.5; }
+    #homey .founder-note span { flex: 1; min-width: 0; padding-top: 24px; text-align: left; }
     button, select { font: inherit; }
     button { cursor: pointer; }
     button:focus-visible, a:focus-visible { outline: 2px solid var(--luxio-mint); outline-offset: 5px; }
@@ -185,8 +186,8 @@
       .chapter-title { font-size: 38px; }
       .connections { grid-template-columns: 1fr; }
       #works-with .connections { padding-bottom: 0; }
-      #homey { margin-bottom: 100px; }
-      #homey .founder-note { left: 35%; width: 65%; }
+      #homey { margin-bottom: 140px; }
+      #homey .founder-note { left: 50%; width: max-content; max-width: 100%; transform: translateX(-50%) rotate(-4deg); }
       .chapter-text { font-size: 19px; }
       .animation-layout { display: flex; flex-direction: column; gap: 24px; align-items: stretch; }
       .animation-copy { text-align: center; padding-bottom: 0; }
@@ -301,7 +302,7 @@
       <h2 class="chapter-title"><span class="gradient-text">Works with your Smart Home</span></h2>
       <p class="chapter-text">Connect Luxio to your smart home and everyday automations.</p>
       <div class="connections">
-        <div id="homey"><h3><img src="./img/brands/homey.png" width="32" height="32" alt="" />Homey</h3><p>Luxio works seamlessly with <a href="https://homey.app/homey-pro" target="_blank" rel="noopener noreferrer">Homey Pro</a> and <a href="https://homey.app/homey-self-hosted-server" target="_blank" rel="noopener noreferrer">Homey Self-Hosted Server</a>.</p><p class="app-link"><a href="https://homey.app/a/lighting.luxio/" target="_blank" rel="noopener noreferrer">Get the Homey app »</a></p><aside class="founder-note"><svg viewBox="0 0 52 48" aria-hidden="true"><path d="M43 43C16 43 9 28 14 7m-7 8 7-8 6 10"/></svg>Also founded by<br>Emile Nijssen</aside></div>
+        <div id="homey"><h3><img src="./img/brands/homey.png" width="32" height="32" alt="" />Homey</h3><p>Luxio works seamlessly with <a href="https://homey.app/homey-pro" target="_blank" rel="noopener noreferrer">Homey Pro</a> and <a href="https://homey.app/homey-self-hosted-server" target="_blank" rel="noopener noreferrer">Homey Self-Hosted Server</a>.</p><p class="app-link"><a href="https://homey.app/a/lighting.luxio/" target="_blank" rel="noopener noreferrer">Get the Homey app »</a></p><aside class="founder-note"><svg viewBox="0 0 52 48" aria-hidden="true"><path d="M43 43C16 43 9 28 14 7m-7 8 7-8 6 10"/></svg><span>Homey is also founded<br>by Emile Nijssen!</span></aside></div>
         <div><h3><img src="./img/brands/home-assistant.svg" width="32" height="32" alt="" />Home Assistant</h3><p>Connect Luxio to your Home Assistant installation via LAN.</p><p class="app-link"><a href="https://github.com/luxio-lighting/luxio-hass" target="_blank" rel="noopener noreferrer">Installation Instructions »</a></p></div>
         <!-- Matter symbol: Connectivity Standards Alliance, via https://commons.wikimedia.org/wiki/File:Logo_of_Matter_connectivity_standard.svg -->
         <div id="matter"><h3><svg class="matter-icon" viewBox="0 0 74.325 72.644" aria-hidden="true"><path d="M65.715 32.905c-7.996 2.19-15.164 7.406-19.636 15.152s-5.407 16.568-3.306 24.587l7.835-4.526a23.9 23.9 0 0 1 1.105-11.836l18.309 10.569 4.303-2.487v-4.967L56.016 48.829a23.92 23.92 0 0 1 9.699-6.879zm-57.108 0v9.045a23.91 23.91 0 0 1 9.699 6.879L0 59.398v4.967l4.303 2.487 18.306-10.569c1.39 3.868 1.726 7.938 1.108 11.836l7.832 4.526c2.101-8.02 1.167-16.841-3.306-24.587A32.52 32.52 0 0 0 8.607 32.905zM37.161 0l-4.303 2.484v21.138c-4.046-.731-7.736-2.476-10.804-4.961l-7.838 4.522c5.895 5.83 14 9.429 22.946 9.429s17.051-3.599 22.946-9.429l-7.835-4.522a23.92 23.92 0 0 1-10.807 4.961V2.484z"/></svg>Matter</h3><p>Connect with Apple Home, Google Home, Alexa and others.</p></div>

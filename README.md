@@ -26,6 +26,13 @@ controlled. Source checkouts at capture time:
 - `luxio-ios/release/marketing-v2/raw/`: home, gradient, animation, settings, Matter.
 - `app.luxio.lighting/.sdk/readme-app.html`: gradient, color, animation, setup dialog and Lua editor.
 
+## Social preview image
+
+`tools/og-image.html` composes the original logo and app screenshots into the
+1200 × 630 social preview. Run `bash tools/render-og.sh` on macOS with Google Chrome
+to regenerate `img/og-image.png`. Set `CHROME_BIN` to use another Chrome binary.
+Only the word “Gradient” has gradient-colored text.
+
 ## Animation preview
 
 The ten Lua presets in `assets/presets.json` are copied from the web app's

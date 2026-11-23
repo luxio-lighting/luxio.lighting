@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Luxio social preview</title>
+  <style>
+    * { box-sizing: border-box; }
+    html, body { margin: 0; width: 1200px; height: 630px; overflow: hidden; }
+    body { font-family: -apple-system, BlinkMacSystemFont, sans-serif; color: #fff; background: #000; }
+    .glow { position: absolute; inset: 0; background: radial-gradient(ellipse at 67% 53%, #00d2ff0c, transparent 62%), radial-gradient(ellipse at 76% 60%, #4fff7f0b, transparent 58%); }
+    .brand { position: absolute; top: 136px; left: 58px; display: flex; align-items: center; gap: 12px; }
+    .brand img { width: 96px; height: 96px; }
+    .brand span { font-size: 72px; font-weight: 800; line-height: 1; letter-spacing: -2px; }
+    h1 { position: absolute; top: 280px; left: 64px; margin: 0; color: #aaa; font-size: 38px; font-weight: 600; line-height: 1.34; }
+    .gradient { color: transparent; background: linear-gradient(90deg, #00d2ff, #4fff7f); background-clip: text; -webkit-background-clip: text; }
+    .url { position: absolute; bottom: 88px; left: 64px; margin: 0; font-size: 24px; color: #777; }
+    .browser { position: absolute; top: 126px; left: 482px; width: 652px; border: 1px solid #414141; border-radius: 12px; overflow: hidden; background: #171717; }
+    .bar { height: 32px; border-bottom: 1px solid #333; display: flex; align-items: center; gap: 6px; padding: 0 14px; }
+    .bar i { width: 6px; height: 6px; background: #606060; border-radius: 50%; }
+    .bar span { flex: 1; padding-right: 36px; text-align: center; font: 11px Arial, sans-serif; color: #999; }
+    .browser > img { display: block; width: 100%; }
+    .phone { position: absolute; top: 211px; left: 972px; width: 176px; padding: 5px; border: 1px solid #5b5b5b; border-radius: 30px; background: #171717; box-shadow: 0 20px 65px #0008; }
+    .screen { position: relative; overflow: hidden; border-radius: 24px; }
+    .screen img { display: block; width: 100%; }
+  </style>
+</head>
+<body>
+  <div class="glow"></div>
+  <div class="brand"><img src="../img/luxio-jellyfish.png" alt="" /><span>Luxio</span></div>
+  <h1>Open Source<br />Wi-Fi <span class="gradient">Gradient</span><br />LED Strips</h1>
+  <p class="url">luxio.lighting</p>
+  <div class="browser">
+    <div class="bar"><i></i><i></i><i></i><span>studio.luxio.lighting</span></div>
+    <img src="../img/screenshots/web-gradient.png" alt="Luxio Studio gradient controls" />
+  </div>
+  <div class="phone"><div class="screen"><img src="../img/screenshots/ios-gradient.png" alt="Luxio iOS gradient controls" /></div></div>
+</body>
+</html>
